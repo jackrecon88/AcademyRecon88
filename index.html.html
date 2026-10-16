@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Strategy Academy | Módulo 1 - Prep Examen</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #0b1120;
+      color: #f8fafc;
+    }
+    .glass-card {
+      background: rgba(30, 41, 59, 0.75);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .perspective {
+      perspective: 1000px;
+    }
+    .flip-card-inner {
+      transition: transform 0.6s;
+      transform-style: preserve-3d;
+    }
+    .flipped {
+      transform: rotateY(180deg);
+    }
+    .flip-card-front, .flip-card-back {
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+    }
+    .flip-card-back {
+      transform: rotateY(180deg);
+    }
+    .tab-active {
+      background: linear-gradient(135deg, #3b82f6 0%, #6366f1 100%);
+      color: white;
+      box-shadow: 0 4px 15px rgba(59, 130, 246, 0.35);
+    }
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      height: 22px;
+      width: 22px;
+      border-radius: 50%;
+      background: #38bdf8;
+      cursor: pointer;
+      box-shadow: 0 0 10px rgba(56, 189, 248, 0.8);
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+  <!-- HEADER -->
+  <header class="sticky top-0 z-50 border-b border-slate-800 bg-slate-950/90 backdrop-blur-md">
+    <div class="max-w-7xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center font-extrabold text-xl shadow-lg shadow-blue-500/20">
+          🧠
+        </div>
+        <div>
+          <h1 class="font-bold text-lg tracking-tight text-white">AI Strategy Academy <span class="text-xs font-semibold px-2 py-0.5 rounded-full bg-blue-500/20 text-blue-300 ml-1">Módulo 1</span></h1>
+          <p class="text-xs text-slate-400">El cuello de botella no es técnico, es estratégico</p>
+        </div>
+      </div>
+
+      <!-- XP & Progress -->
+      <div class="flex items-center gap-4">
+        <div class="hidden sm:flex flex-col items-end">
+          <div class="flex items-center gap-2 text-xs font-medium text-slate-300">
+            <span>Nivel de preparación:</span>
+            <span id="xp-badge" class="text-amber-400 font-bold">0 XP</span>
+          </div>
+          <div class="w-40 h-2 bg-slate-800 rounded-full overflow-hidden mt-1">
+            <div id="xp-bar" class="h-full bg-gradient-to-r from-amber-400 to-emerald-400 transition-all duration-500" style="width: 5%"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Navigation Tabs -->
+    <nav class="max-w-7xl mx-auto px-4 py-2 flex overflow-x-auto gap-2 border-t border-slate-800/60 no-scrollbar">
+      <button onclick="switchTab('mapa')" id="tab-mapa" class="tab-btn tab-active px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold whitespace-nowrap transition-all">
+        🗺️ 1. Mapa Teórico
+      </button>
+      <button onclick="switchTab('simulador')" id="tab-simulador" class="tab-btn px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold text-slate-300 hover:bg-slate-800 whitespace-nowrap transition-all">
+        🎛️ 2. Simulador de Métricas y Umbral
+      </button>
+      <button onclick="switchTab('detective')" id="tab-detective" class="tab-btn px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold text-slate-300 hover:bg-slate-800 whitespace-nowrap transition-all">
+        🕵️‍♂️ 3. Detective: Sesgos y Leakage
+      </button>
+      <button onclick="switchTab('aiact')" id="tab-aiact" class="tab-btn px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold text-slate-300 hover:bg-slate-800 whitespace-nowrap transition-all">
+        🏛️ 4. Ética y Pirámide AI Act
+      </button>
+      <button onclick="switchTab('flashcards')" id="tab-flashcards" class="tab-btn px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold text-slate-300 hover:bg-slate-800 whitespace-nowrap transition-all">
+        🃏 5. Flashcards de Repaso
+      </button>
+      <button onclick="switchTab('examen')" id="tab-examen" class="tab-btn px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold text-slate-300 hover:bg-slate-800 whitespace-nowrap transition-all">
+        🏆 6. Simulacro de Examen
+      </button>
+    </nav>
+  </header>
+
+  <!-- MAIN CONTENT -->
+  <main class="flex-1 max-w-7xl w-full mx-auto px-4 py-6">
+
+    <!-- ==================== SECCIÓN 1: MAPA TEÓRICO ==================== -->
+    <section id="sec-mapa" class="space-y-8">
+      <!-- Banner Idea Clave -->
+      <div class="glass-card rounded-2xl p-6 border-l-4 border-l-blue-500 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+        <div>
+          <span class="text-xs uppercase tracking-wider font-bold text-blue-400">Regla de Oro del Examen</span>
+          <h2 class="text-xl sm:text-2xl font-bold mt-1">De la Estrategia al Algoritmo</h2>
+          <p class="text-slate-300 text-sm mt-1">
+            "Reducir el abandono" es un <b>objetivo de negocio</b>. "Predecir la probabilidad de que cada cliente activo cancele en los próximos 60 días usando datos de uso e incidencias disponibles hoy" es una <b>formulación de IA</b>.
+          </p>
+        </div>
+        <div class="bg-slate-900/90 px-4 py-3 rounded-xl border border-slate-700 shrink-0 text-xs space-y-1">
+          <div class="text-emerald-400 font-bold">✅ Cuándo SÍ usar IA:</div>
+          <div class="text-slate-300">Patrones complejos, predicción, visión, generación.</div>
+          <div class="text-rose-400 font-bold pt-1">🛑 Cuándo NO usar IA:</div>
+          <div class="text-slate-300">Basta una regla fija, RPA, mejora UX o hay caos de datos.</div>
+        </div>
+      </div>
+
+      <!-- Evolución y Fronteras -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <!-- Evolución -->
+        <div class="glass-card rounded-2xl p-6">
+          <h3 class="text-lg font-bold text-white flex items-center gap-2 mb-4">
+            <span>⏳</span> Los 3 Paradigmas de la IA
+          </h3>
+          <div class="space-y-3">
+            <div class="p-3.5 rounded-xl bg-slate-900/70 border border-slate-800">
+              <div class="flex justify-between items-center">
+                <span class="font-bold text-amber-400 text-sm">1. IA Simbólica (1950s-1980s)</span>
+                <span class="text-xs px-2 py-0.5 bg-amber-500/10 text-amber-300 rounded">Sistemas Expertos</span>
+              </div>
+              <p class="text-xs text-slate-300 mt-1">Reglas explícitas ("Si A entonces B"). <b>Ventaja:</b> 100% interpretable. <b>Límite:</b> Frágil ante ambigüedad o cambios (llevó a los <i>Inviernos de la IA</i>).</p>
+            </div>
+            <div class="p-3.5 rounded-xl bg-slate-900/70 border border-slate-800">
+              <div class="flex justify-between items-center">
+                <span class="font-bold text-sky-400 text-sm">2. IA Basada en Datos (ML / DL)</span>
+                <span class="text-xs px-2 py-0.5 bg-sky-500/10 text-sky-300 rounded">Auge Big Data & GPUs</span>
+              </div>
+              <p class="text-xs text-slate-300 mt-1">Aprende patrones de miles de ejemplos históricos. <b>ML:</b> Datos tabulares (fraude, churn). <b>Deep Learning:</b> Redes profundas para imágenes, voz y vídeo.</p>
+            </div>
+            <div class="p-3.5 rounded-xl bg-slate-900/70 border border-slate-800">
+              <div class="flex justify-between items-center">
+                <span class="font-bold text-purple-400 text-sm">3. Modelos Fundacionales e IA Generativa</span>
+                <span class="text-xs px-2 py-0.5 bg-purple-500/10 text-purple-300 rounded">Transformers (2017+)</span>
+              </div>
+              <p class="text-xs text-slate-300 mt-1">Entrenados a gran escala y adaptables a múltiples tareas vía APIs/Prompts. Crean contenido nuevo. <b>Riesgo:</b> Alucinaciones, fugas de privacidad y copyright.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Mapa de Fronteras -->
+        <div class="glass-card rounded-2xl p-6">
+          <h3 class="text-lg font-bold text-white flex items-center gap-2 mb-4">
+            <span>🧭</span> ¡No los confundas! IA vs. Automatización vs. RPA
+          </h3>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+            <div class="p-3.5 rounded-xl bg-slate-900/70 border border-slate-800">
+              <div class="text-emerald-400 font-bold text-sm mb-1">⚙️ Automatización</div>
+              <p class="text-slate-300">Ejecuta flujos fijos según condiciones ("Si factura > 30 días, enviar email"). <b>No aprende.</b></p>
+            </div>
+            <div class="p-3.5 rounded-xl bg-slate-900/70 border border-slate-800">
+              <div class="text-cyan-400 font-bold text-sm mb-1">🖱️ RPA (Bots de Interfaz)</div>
+              <p class="text-slate-300">Imita clics y teclado humano en pantalla para mover datos entre sistemas sin API. <b>Opera en la superficie.</b></p>
+            </div>
+            <div class="p-3.5 rounded-xl bg-slate-900/70 border border-slate-800">
+              <div class="text-orange-400 font-bold text-sm mb-1">🦾 Robótica</div>
+              <p class="text-slate-300">Máquinas físicas (brazos, drones). Puede ser determinista o usar IA (Visión Artificial) para esquivar obstáculos.</p>
+            </div>
+            <div class="p-3.5 rounded-xl bg-slate-900/70 border border-slate-800">
+              <div class="text-indigo-400 font-bold text-sm mb-1">🧠 Inteligencia Artificial</div>
+              <p class="text-slate-300">Predice probabilidades, detecta patrones ocultos o genera contenido nuevo. <b>99% actual es IA Estrecha (Narrow AI).</b></p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Las 7 Tareas de IA Interactivas -->
+      <div class="glass-card rounded-2xl p-6">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4">
+          <h3 class="text-lg font-bold text-white">🗂️ Taxonomía: Los 7 Tipos de Problemas de IA (Haz clic para explorar)</h3>
+          <span class="text-xs text-slate-400">Pregunta segura de examen: diferenciar tarea + output esperado</span>
+        </div>
+        <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-2 mb-4" id="tax-buttons"></div>
+        <div id="tax-detail" class="p-5 rounded-xl bg-slate-900/90 border border-blue-500/30 text-sm"></div>
+      </div>
+    </section>
+
+    <!-- ==================== SECCIÓN 2: SIMULADOR DE MÉTRICAS ==================== -->
+    <section id="sec-simulador" class="hidden space-y-6">
+      <div class="glass-card rounded-2xl p-6">
+        <h2 class="text-xl font-bold text-white mb-1">🎛️ Laboratorio Interactivo: La Ilusión del 99% y el Umbral de Decisión</h2>
+        <p class="text-xs sm:text-sm text-slate-300 mb-6">
+          Los modelos no toman decisiones: devuelven probabilidades (de 0 a 1). <b>El negocio fija el umbral.</b> Elige un escenario y mueve el umbral para ver cómo cambian los Falsos Positivos, Falsos Negativos, Precisión y Recall.
+        </p>
+
+        <!-- Selector de Escenario -->
+        <div class="flex flex-wrap gap-2 mb-6">
+          <button onclick="setSimScenario('trampa')" id="scen-trampa" class="scen-btn px-3.5 py-2 rounded-xl text-xs font-bold bg-rose-500 text-white">
+            🚨 Caso 1: La Trampa del 99% (Predicción "Todo Legítimo")
+          </button>
+          <button onclick="setSimScenario('fraude')" id="scen-fraude" class="scen-btn px-3.5 py-2 rounded-xl text-xs font-bold bg-slate-800 text-slate-300 hover:bg-slate-700">
+            💳 Caso 2: Fraude Bancario (Priorizar Recall / Coste)
+          </button>
+          <button onclick="setSimScenario('spam')" id="scen-spam" class="scen-btn px-3.5 py-2 rounded-xl text-xs font-bold bg-slate-800 text-slate-300 hover:bg-slate-700">
+            📧 Caso 3: Filtro Antispam (Priorizar Precisión)
+          </button>
+          <button onclick="setSimScenario('salud')" id="scen-salud" class="scen-btn px-3.5 py-2 rounded-xl text-xs font-bold bg-slate-800 text-slate-300 hover:bg-slate-700">
+            🏥 Caso 4: Cribado Médico (Priorizar Recall Alto)
+          </button>
+        </div>
+
+        <!-- Control de Umbral -->
+        <div class="bg-slate-900/90 p-5 rounded-xl border border-slate-800 mb-6">
+          <div class="flex justify-between items-center mb-2">
+            <label for="threshold-slider" class="text-sm font-bold text-sky-400">
+              Umbral de Decisión (Threshold): <span id="threshold-val" class="text-white text-base">0.99</span>
+            </label>
+            <span id="threshold-mode" class="text-xs px-2.5 py-1 rounded-full bg-rose-500/20 text-rose-300 font-semibold">
+              Extremadamente Conservador (No detecta nada)
+            </span>
+          </div>
+          <input id="threshold-slider" type="range" min="0.10" max="0.99" step="0.05" value="0.99" oninput="updateSimulator(this.value)" class="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer">
+          <div class="flex justify-between text-[11px] text-slate-400 mt-2">
+            <span>⬅️ 0.10 (Muy sensible: Alto Recall, más Falsas Alarmas)</span>
+            <span>0.50 (Estándar técnico)</span>
+            <span>0.99 (Muy estricto: Alta Precisión, muchos Falsos Negativos) ➡️</span>
+          </div>
+        </div>
+
+        <!-- Matriz y KPIs -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+          <!-- Matriz de Confusión -->
+          <div class="lg:col-span-7 grid grid-cols-2 gap-3">
+            <div class="p-4 rounded-xl bg-emerald-950/50 border border-emerald-500/40">
+              <div class="text-xs text-emerald-300 font-bold uppercase">Verdaderos Positivos (VP)</div>
+              <div id="mat-vp" class="text-3xl font-extrabold text-white my-1">0</div>
+              <div class="text-xs text-slate-300">Positivos reales detectados con éxito por el modelo.</div>
+            </div>
+            <div class="p-4 rounded-xl bg-rose-950/60 border border-rose-500/50">
+              <div class="text-xs text-rose-300 font-bold uppercase">Falsos Negativos (FN) ⚠️</div>
+              <div id="mat-fn" class="text-3xl font-extrabold text-white my-1">100</div>
+              <div class="text-xs text-slate-300">Positivos reales que se escaparon. Crítico en salud/fraude.</div>
+            </div>
+            <div class="p-4 rounded-xl bg-amber-950/50 border border-amber-500/40">
+              <div class="text-xs text-amber-300 font-bold uppercase">Falsos Positivos (FP) 🔔</div>
+              <div id="mat-fp" class="text-3xl font-extrabold text-white my-1">0</div>
+              <div class="text-xs text-slate-300">Falsa alarma. Bloquear cliente legítimo o mandar email bueno a spam.</div>
+            </div>
+            <div class="p-4 rounded-xl bg-sky-950/50 border border-sky-500/40">
+              <div class="text-xs text-sky-300 font-bold uppercase">Verdaderos Negativos (VN)</div>
+              <div id="mat-vn" class="text-3xl font-extrabold text-white my-1">9.900</div>
+              <div class="text-xs text-slate-300">Casos normales descartados correctamente (flujo sin fricción).</div>
+            </div>
+          </div>
+
+          <!-- Barras de Métricas -->
+          <div class="lg:col-span-5 bg-slate-900/90 p-5 rounded-xl border border-slate-800 space-y-4">
+            <div>
+              <div class="flex justify-between text-xs font-bold mb-1">
+                <span class="text-slate-300">Accuracy (Aciertos Globales)</span>
+                <span id="met-acc" class="text-white">99.0%</span>
+              </div>
+              <div class="w-full h-2.5 bg-slate-800 rounded-full overflow-hidden">
+                <div id="bar-acc" class="h-full bg-slate-400" style="width: 99%"></div>
+              </div>
+            </div>
+
+            <div>
+              <div class="flex justify-between text-xs font-bold mb-1">
+                <span class="text-emerald-400">Recall / Sensibilidad (VP / Positivos Reales)</span>
+                <span id="met-rec" class="text-emerald-400">0.0%</span>
+              </div>
+              <div class="w-full h-2.5 bg-slate-800 rounded-full overflow-hidden">
+                <div id="bar-rec" class="h-full bg-emerald-500 transition-all duration-300" style="width: 0%"></div>
+              </div>
+            </div>
+
+            <div>
+              <div class="flex justify-between text-xs font-bold mb-1">
+                <span class="text-amber-400">Precisión (VP / Positivos Predichos)</span>
+                <span id="met-prec" class="text-amber-400">0.0%</span>
+              </div>
+              <div class="w-full h-2.5 bg-slate-800 rounded-full overflow-hidden">
+                <div id="bar-prec" class="h-full bg-amber-500 transition-all duration-300" style="width: 0%"></div>
+              </div>
+            </div>
+
+            <div>
+              <div class="flex justify-between text-xs font-bold mb-1">
+                <span class="text-indigo-400">F1-Score (Equilibrio Armónico)</span>
+                <span id="met-f1" class="text-indigo-400">0.0%</span>
+              </div>
+              <div class="w-full h-2.5 bg-slate-800 rounded-full overflow-hidden">
+                <div id="bar-f1" class="h-full bg-indigo-500 transition-all duration-300" style="width: 0%"></div>
+              </div>
+            </div>
+
+            <div id="sim-insight" class="p-3 rounded-lg bg-rose-500/10 border border-rose-500/30 text-xs text-rose-200 mt-3">
+              💡 <b>Diagnóstico:</b> ¡Aquí está la trampa del 99%! El modelo acierta 9.900 de 10.000 porque dice "no fraude" siempre, pero su <b>Recall es 0%</b>. Es 100% inútil para el banco.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Regresión: MAE vs MSE vs RMSE -->
+      <div class="glass-card rounded-2xl p-6">
+        <h3 class="text-lg font-bold text-white mb-3">📉 Métricas de Regresión: ¿Cuándo usar MAE, MSE o RMSE?</h3>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+          <div class="p-4 rounded-xl bg-slate-900/80 border border-slate-800">
+            <span class="text-sky-400 font-bold text-sm">MAE (Error Absoluto Medio)</span>
+            <p class="text-slate-300 mt-1">Se expresa en la <b>misma unidad del negocio</b> (€, días, kWh). Trata todos los errores de forma proporcional sin exagerar los valores extremos.</p>
+          </div>
+          <div class="p-4 rounded-xl bg-slate-900/80 border border-slate-800">
+            <span class="text-amber-400 font-bold text-sm">MSE (Error Cuadrático Medio)</span>
+            <p class="text-slate-300 mt-1">Eleva el error al cuadrado: <b>castiga severamente los errores grandes</b>, pero sus unidades quedan al cuadrado (€²), siendo menos intuitivo.</p>
+          </div>
+          <div class="p-4 rounded-xl bg-slate-900/80 border border-slate-800">
+            <span class="text-emerald-400 font-bold text-sm">RMSE (Raíz del MSE)</span>
+            <p class="text-slate-300 mt-1">Hace la raíz cuadrada del MSE: <b>vuelve a la unidad original (€, unidades)</b> manteniendo la fuerte penalización cuando fallar por mucho es catastrófico.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== SECCIÓN 3: DETECTIVE DE SESGOS Y LEAKAGE ==================== -->
+    <section id="sec-detective" class="hidden space-y-6">
+      <!-- Parte A: Auditor de Data Leakage -->
+      <div class="glass-card rounded-2xl p-6">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4">
+          <div>
+            <span class="text-xs uppercase font-bold text-amber-400">Juego de Auditoría Temporal (Día 0)</span>
+            <h2 class="text-xl font-bold text-white">⏳ Cazador de Data Leakage: Predicción de Abandono a 60 días</h2>
+            <p class="text-xs text-slate-300 mt-1">
+              Hazte siempre la pregunta de oro: <i>"Si el modelo estuviera prediciendo hoy en vivo (Día 0), ¿existiría ya este dato?"</i> Clasifica cada variable:
+            </p>
+          </div>
+          <div class="bg-slate-900 px-4 py-2 rounded-xl border border-slate-700 text-xs font-bold text-emerald-400 shrink-0">
+            Aciertos: <span id="leak-score">0</span> / 8
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3" id="leakage-grid"></div>
+      </div>
+
+      <!-- Parte B: Los 5 Tipos de Sesgo -->
+      <div class="glass-card rounded-2xl p-6">
+        <h3 class="text-lg font-bold text-white mb-2">⚖️ Anatomía de los 5 Sesgos + Variables Proxy</h3>
+        <p class="text-xs text-slate-300 mb-4">
+          Recuerda: eliminar la columna "sexo" o "raza" <b>no evita la discriminación</b> si existen <b>variables proxy</b> (código postal, universidad, huecos laborales en el CV) que ocultan esos atributos.
+        </p>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 text-xs">
+          <div class="p-4 rounded-xl bg-slate-900/90 border border-slate-800">
+            <div class="font-bold text-rose-400 text-sm mb-1">1. Histórico</div>
+            <p class="text-slate-300">Los datos reflejan prejuicios pasados (ej. 20 años contratando solo hombres directivos).</p>
+          </div>
+          <div class="p-4 rounded-xl bg-slate-900/90 border border-slate-800">
+            <div class="font-bold text-amber-400 text-sm mb-1">2. Representación</div>
+            <p class="text-slate-300">Un grupo falta en la muestra (ej. entrenar IA médica en hospital urbano y usarla en zona rural).</p>
+          </div>
+          <div class="p-4 rounded-xl bg-slate-900/90 border border-slate-800">
+            <div class="font-bold text-sky-400 text-sm mb-1">3. Medición</div>
+            <p class="text-slate-300">Variable proxy defectuosa (ej. medir "salud necesaria" según "gasto sanitario previo").</p>
+          </div>
+          <div class="p-4 rounded-xl bg-slate-900/90 border border-slate-800">
+            <div class="font-bold text-purple-400 text-sm mb-1">4. Agregación</div>
+            <p class="text-slate-300">Mezclar en un único modelo poblaciones con comportamientos distintos (tiendas rurales + urbanas).</p>
+          </div>
+          <div class="p-4 rounded-xl bg-slate-900/90 border border-slate-800">
+            <div class="font-bold text-emerald-400 text-sm mb-1">5. Implementación</div>
+            <p class="text-slate-300">Usar un score orientativo de apoyo para ejecutar rechazos automáticos sin revisión humana.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== SECCIÓN 4: ÉTICA Y AI ACT ==================== -->
+    <section id="sec-aiact" class="hidden space-y-6">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <!-- Pirámide Interactiva AI Act -->
+        <div class="lg:col-span-7 glass-card rounded-2xl p-6">
+          <h2 class="text-xl font-bold text-white mb-1">🏛️ Pirámide Regulatoria del AI Act Europeo</h2>
+          <p class="text-xs text-slate-300 mb-5">Haz clic en cada nivel de riesgo para ver ejemplos y obligaciones legales:</p>
+
+          <div class="space-y-3 flex flex-col items-center">
+            <button onclick="showAiAct(4)" class="w-2/5 py-3 px-4 rounded-t-2xl bg-gradient-to-r from-rose-600 to-red-700 text-white font-bold text-xs sm:text-sm shadow-lg hover:scale-105 transition">
+              🚫 Nivel 4: Riesgo Inadmisible
+            </button>
+            <button onclick="showAiAct(3)" class="w-3/5 py-3.5 px-4 bg-gradient-to-r from-orange-500 to-amber-600 text-white font-bold text-xs sm:text-sm shadow-lg hover:scale-105 transition">
+              ⚠️ Nivel 3: Alto Riesgo (Empleo, Salud, Crédito...)
+            </button>
+            <button onclick="showAiAct(2)" class="w-4/5 py-3.5 px-4 bg-gradient-to-r from-yellow-500 to-amber-500 text-slate-950 font-bold text-xs sm:text-sm shadow-lg hover:scale-105 transition">
+              💬 Nivel 2: Riesgo Limitado (Transparencia)
+            </button>
+            <button onclick="showAiAct(1)" class="w-full py-3.5 px-4 rounded-b-2xl bg-gradient-to-r from-emerald-600 to-teal-600 text-white font-bold text-xs sm:text-sm shadow-lg hover:scale-105 transition">
+              ✅ Nivel 1: Riesgo Mínimo o Nulo
+            </button>
+          </div>
+
+          <div id="aiact-detail" class="mt-6 p-5 rounded-xl bg-slate-900 border border-orange-500/40 text-sm"></div>
+        </div>
+
+        <!-- Interpretabilidad vs XAI y Comité Ético -->
+        <div class="lg:col-span-5 space-y-6">
+          <div class="glass-card rounded-2xl p-6">
+            <h3 class="text-lg font-bold text-white mb-3">🔍 Interpretabilidad vs. Explicabilidad (XAI)</h3>
+            <div class="space-y-3 text-xs">
+              <div class="p-3.5 rounded-xl bg-slate-900 border border-slate-800">
+                <span class="font-bold text-emerald-400">Modelo Interpretable (Caja Blanca):</span>
+                <p class="text-slate-300 mt-1">Matemática transparente por diseño (ej. Árbol de decisión simple, Regresión logística). Se entiende directamente cómo transforma entradas en salidas.</p>
+              </div>
+              <div class="p-3.5 rounded-xl bg-slate-900 border border-slate-800">
+                <span class="font-bold text-sky-400">Explicabilidad - XAI (Sobre Caja Negra):</span>
+                <p class="text-slate-300 mt-1">Técnicas adicionales aplicadas sobre Redes Neuronales o Ensembles para justificar qué factores influyeron en una decisión concreta (vital en banca, salud o RR. HH.).</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="glass-card rounded-2xl p-6 border-l-4 border-l-amber-500">
+            <h3 class="text-base font-bold text-white mb-2">👨‍⚖️ Caso Clásico de Examen: El Comité de RR. HH.</h3>
+            <p class="text-xs text-slate-300 leading-relaxed">
+              Si una empresa recibe 5.000 CV y una IA <b>descarta automáticamente al 70%-80%</b> sin que nadie los mire:
+            </p>
+            <ul class="text-xs text-slate-300 list-disc pl-4 mt-2 space-y-1">
+              <li><b>¿Hay supervisión humana real?</b> NO, para el 70% descartado es una decisión 100% automatizada.</li>
+              <li><b>¿Qué nivel del AI Act es?</b> <b>Alto Riesgo</b> (acceso al empleo).</li>
+              <li><b>¿Decisión del comité?</b> <b>Aprobar CON MODIFICACIONES</b> (convertir en sistema asistido <i>Human in the Loop</i>, auditar sesgos/proxies y aplicar minimización de datos).</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== SECCIÓN 5: FLASHCARDS ==================== -->
+    <section id="sec-flashcards" class="hidden space-y-6">
+      <div class="glass-card rounded-2xl p-6 text-center max-w-2xl mx-auto">
+        <span class="text-xs uppercase font-bold text-indigo-400">Entrenamiento de Memoria Activa</span>
+        <h2 class="text-xl font-bold text-white mt-1">🃏 Tarjetas Rápidas de Examen</h2>
+        <p class="text-xs text-slate-400 mt-1 mb-6">Piensa la respuesta y haz clic en la tarjeta para girarla</p>
+
+        <!-- Flashcard Container -->
+        <div onclick="flipCard()" class="perspective cursor-pointer h-64 w-full mx-auto mb-6">
+          <div id="flashcard-inner" class="flip-card-inner relative w-full h-full rounded-2xl shadow-xl">
+            <!-- Front -->
+            <div class="flip-card-front absolute inset-0 rounded-2xl bg-gradient-to-br from-slate-800 to-slate-900 border border-slate-700 p-6 flex flex-col items-center justify-center">
+              <span id="fc-tag" class="text-xs px-3 py-1 rounded-full bg-blue-500/20 text-blue-300 font-semibold mb-3">Concepto</span>
+              <h3 id="fc-front" class="text-lg sm:text-xl font-bold text-white"></h3>
+              <span class="text-xs text-slate-400 mt-6">👆 Haz clic para ver la respuesta</span>
+            </div>
+            <!-- Back -->
+            <div class="flip-card-back absolute inset-0 rounded-2xl bg-gradient-to-br from-indigo-900 to-slate-900 border border-indigo-500/50 p-6 flex flex-col items-center justify-center">
+              <span class="text-xs uppercase tracking-wider text-indigo-300 font-bold mb-2">Respuesta de Examen</span>
+              <p id="fc-back" class="text-sm sm:text-base text-slate-100 leading-relaxed"></p>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex items-center justify-between">
+          <button onclick="prevCard()" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-xs font-bold text-slate-200">⬅️ Anterior</button>
+          <span id="fc-counter" class="text-xs font-bold text-slate-400">1 / 12</span>
+          <button onclick="nextCard()" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-xs font-bold text-white">Siguiente ➡️</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== SECCIÓN 6: SIMULACRO DE EXAMEN ==================== -->
+    <section id="sec-examen" class="hidden space-y-6">
+      <div class="glass-card rounded-2xl p-6 max-w-3xl mx-auto">
+        <div class="flex items-center justify-between border-b border-slate-800 pb-4 mb-6">
+          <div>
+            <span class="text-xs font-bold uppercase text-emerald-400">Test Autocorregible</span>
+            <h2 class="text-xl font-bold text-white">🏆 Simulacro Oficial del Módulo 1 (10 Preguntas)</h2>
+          </div>
+          <div class="text-right">
+            <span class="text-xs text-slate-400">Puntuación</span>
+            <div id="quiz-score-top" class="text-lg font-extrabold text-amber-400">0 / 10</div>
+          </div>
+        </div>
+
+        <div id="quiz-container" class="space-y-6"></div>
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    let xp = 0;
+    function addXp(amount) {
+      xp = Math.min(100, xp + amount);
+      document.getElementById('xp-badge').innerText = xp + ' XP';
+      document.getElementById('xp-bar').style.width = Math.max(5, xp) + '%';
+    }
+
+    function switchTab(tab) {
+      const tabs = ['mapa', 'simulador', 'detective', 'aiact', 'flashcards', 'examen'];
+      tabs.forEach(t => {
+        document.getElementById('sec-' + t).classList.add('hidden');
+        const btn = document.getElementById('tab-' + t);
+        btn.classList.remove('tab-active');
+        btn.classList.add('text-slate-300');
+      });
+      document.getElementById('sec-' + tab).classList.remove('hidden');
+      const activeBtn = document.getElementById('tab-' + tab);
+      activeBtn.classList.add('tab-active');
+      activeBtn.classList.remove('text-slate-300');
+      addXp(5);
+    }
+
+    // 1. TAXONOMÍA DATA
+    const taxData = [
+      { id: 'clas', icon: '🏷️', name: 'Clasificación', desc: 'Asigna una categoría (binaria o multiclase).', out: 'Etiqueta + probabilidad (ej. Fraude / No fraude, o clasificar ticket en Facturación, Soporte o Baja).', ex: 'Predecir si un paciente reingresará en 30 días (Sí/No).' },
+      { id: 'reg', icon: '📈', name: 'Regresión', desc: 'Predice un valor numérico continuo.', out: 'Número continuo en la unidad del problema (ej. 345 unidades vendidas, 1.250 kWh, 42 minutos).', ex: 'Estimar la demanda de una tienda para la próxima semana.' },
+      { id: 'clus', icon: '🫧', name: 'Clustering', desc: 'Agrupa casos similares SIN etiquetas previas (no supervisado).', out: 'ID de clúster o segmento asignado a cada caso (Grupo A, Grupo B, Grupo C).', ex: 'Segmentar clientes según sus hábitos de compra.' },
+      { id: 'gen', icon: '✨', name: 'Generación', desc: 'Crea contenido nuevo a partir de instrucciones o contexto.', out: 'Texto nuevo, resumen ejecutivo, código, imagen o borrador de respuesta.', ex: 'Resumir una reunión de dos horas o redactar respuesta a una reclamación.' },
+      { id: 'rec', icon: '🎬', name: 'Recomendación', desc: 'Sugiere elementos personalizados combinando señales de usuario y contexto.', out: 'Lista personalizada de N productos o contenidos sugeridos.', ex: 'Sugerir 5 películas a un usuario según su historial.' },
+      { id: 'anom', icon: '🚨', name: 'Anomalías', desc: 'Identifica casos raros o desviaciones respecto al patrón normal.', out: 'Alerta o score de rareza/desviación.', ex: 'Detectar lecturas extrañas en los sensores de una turbina industrial.' },
+      { id: 'rank', icon: '🥇', name: 'Ranking', desc: 'Ordena elementos por prioridad, riesgo o probabilidad de éxito.', out: 'Lista ordenada de elementos de mayor a menor puntuación.', ex: 'Ordenar 500 leads comerciales de mayor a menor propensión de compra.' }
+    ];
+
+    function renderTaxonomy(selectedIndex = 0) {
+      const btnContainer = document.getElementById('tax-buttons');
+      btnContainer.innerHTML = taxData.map((t, i) => `
+        <button onclick="renderTaxonomy(${i})" class="p-3 rounded-xl border text-left transition-all ${i === selectedIndex ? 'bg-blue-600/30 border-blue-400 text-white shadow-md' : 'bg-slate-900/60 border-slate-800 text-slate-300 hover:bg-slate-800'}">
+          <div class="text-xl mb-1">${t.icon}</div>
+          <div class="font-bold text-xs">${t.name}</div>
+        </button>
+      `).join('');
+
+      const item = taxData[selectedIndex];
+      document.getElementById('tax-detail').innerHTML = `
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-slate-800">
+          <div class="font-bold text-base text-blue-400">${item.icon} ${item.name}</div>
+          <span class="text-xs px-2.5 py-1 rounded bg-slate-800 text-slate-300">Ejemplo: ${item.ex}</span>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-3">
+          <div><span class="text-slate-400 font-semibold">¿Qué hace?:</span> <span class="text-white">${item.desc}</span></div>
+          <div><span class="text-emerald-400 font-semibold">Output esperado:</span> <span class="text-white">${item.out}</span></div>
+        </div>
+      `;
+    }
+
+    // 2. SIMULADOR DE MÉTRICAS
+    function updateSimulator(val) {
+      const t = parseFloat(val);
+      document.getElementById('threshold-val').innerText = t.toFixed(2);
+
+      let vp, fn, fp, vn;
+      if (t >= 0.98) {
+        vp = 0; fn = 100; fp = 0; vn = 9900;
+      } else {
+        vp = Math.round(100 * Math.pow(1 - t, 0.45));
+        vp = Math.min(99, Math.max(5, vp));
+        fn = 100 - vp;
+        fp = Math.round(650 * Math.pow(1 - t, 2.3));
+        vn = 9900 - fp;
+      }
+
+      const acc = ((vp + vn) / 10000) * 100;
+      const rec = (vp / 100) * 100;
+      const prec = (vp + fp) > 0 ? (vp / (vp + fp)) * 100 : 0;
+      const f1 = (prec + rec) > 0 ? (2 * prec * rec) / (prec + rec) : 0;
+
+      document.getElementById('mat-vp').innerText = vp;
+      document.getElementById('mat-fn').innerText = fn;
+      document.getElementById('mat-fp').innerText = fp;
+      document.getElementById('mat-vn').innerText = vn.toLocaleString('es-ES');
+
+      document.getElementById('met-acc').innerText = acc.toFixed(1) + '%';
+      document.getElementById('bar-acc').style.width = acc + '%';
+
+      document.getElementById('met-rec').innerText = rec.toFixed(1) + '%';
+      document.getElementById('bar-rec').style.width = rec + '%';
+
+      document.getElementById('met-prec').innerText = prec.toFixed(1) + '%';
+      document.getElementById('bar-prec').style.width = prec + '%';
+
+      document.getElementById('met-f1').innerText = f1.toFixed(1) + '%';
+      document.getElementById('bar-f1').style.width = f1 + '%';
+
+      const modeEl = document.getElementById('threshold-mode');
+      const insightEl = document.getElementById('sim-insight');
+
+      if (t >= 0.98) {
+        modeEl.innerText = 'Trampa del 99% (Predice siempre Negativo)';
+        modeEl.className = 'text-xs px-2.5 py-1 rounded-full bg-rose-500/20 text-rose-300 font-semibold';
+        insightEl.innerHTML = '💡 <b>La Ilusión del 99%:</b> Al poner un umbral inalcanzable, el modelo dice "no es fraude" siempre. Tiene <b>99% de Accuracy</b> pero detecta <b>0 fraudes (Recall 0%)</b>. Es 100% inútil.';
+      } else if (t <= 0.30) {
+        modeEl.innerText = 'Alta Sensibilidad / Prioridad Recall';
+        modeEl.className = 'text-xs px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-300 font-semibold';
+        insightEl.innerHTML = `💡 <b>Umbral Bajo (${t.toFixed(2)}):</b> Ideal en <b>Salud o Defectos Críticos</b> donde un Falso Negativo es gravísimo. Detectas ${vp} de 100 casos reales (Recall ${rec.toFixed(0)}%), asumiendo revisar ${fp} falsas alarmas.`;
+      } else if (t >= 0.75) {
+        modeEl.innerText = 'Alta Precisión / Evitar Falsos Positivos';
+        modeEl.className = 'text-xs px-2.5 py-1 rounded-full bg-amber-500/20 text-amber-300 font-semibold';
+        insightEl.innerHTML = `💡 <b>Umbral Alto (${t.toFixed(2)}):</b> Ideal en <b>Filtros de Spam o Marketing VIP</b>. Casi no cometes Falsos Positivos (solo ${fp}), logrando una Precisión del ${prec.toFixed(0)}%, aunque dejas escapar ${fn} positivos.`;
+      } else {
+        modeEl.innerText = 'Equilibrio Operativo (Balance F1)';
+        modeEl.className = 'text-xs px-2.5 py-1 rounded-full bg-sky-500/20 text-sky-300 font-semibold';
+        insightEl.innerHTML = `💡 <b>Umbral Equilibrado (${t.toFixed(2)}):</b> Balanceas el coste de bloquear operaciones legítimas (${fp} FP) frente a los casos no detectados (${fn} FN).`;
+      }
+    }
+
+    function setSimScenario(type) {
+      const map = { trampa: 0.99, fraude: 0.45, spam: 0.85, salud: 0.20 };
+      const val = map[type];
+      document.getElementById('threshold-slider').value = val;
+      updateSimulator(val);
+      addXp(5);
+    }
+
+    // 3. AUDITOR DE DATA LEAKAGE
+    const leakItems = [
+      { id: 1, name: 'Fecha de cancelación del cliente', leak: true, why: '¡Target Leakage! Solo existe cuando el cliente ya ha cancelado; revela directamente la etiqueta.' },
+      { id: 2, name: 'Uso de la plataforma en los 30 días previos al Día 0', leak: false, why: 'Dato histórico legítimo disponible antes del punto de corte temporal.' },
+      { id: 3, name: 'Motivo indicado por el cliente al darse de baja', leak: true, why: '¡Target/Temporal Leakage! Se registra durante la baja; es imposible tenerlo antes de predecir.' },
+      { id: 4, name: 'Número de incidencias abiertas antes de la predicción', leak: false, why: 'Dato válido: ocurrió en el pasado antes del momento de la decisión.' },
+      { id: 5, name: 'Descuento de retención aplicado tras solicitar la baja', leak: true, why: '¡Temporal Leakage! Ocurre después de que el cliente ya pidió cancelar.' },
+      { id: 6, name: 'Constantes médicas registradas 15 días después del alta', leak: true, why: '¡Temporal Leakage! Usa información del futuro posterior al momento del alta.' },
+      { id: 7, name: 'Imputar la media usando Train y Test juntos antes de dividir', leak: true, why: '¡Pipeline Leakage! El conjunto de entrenamiento contamina la evaluación con datos de Test.' },
+      { id: 8, name: 'Antigüedad y tipo de plan contratado en el Día 0', leak: false, why: 'Atributo totalmente válido y conocido en el instante de hacer la predicción.' }
+    ];
+    let leakAnswered = {};
+
+    function renderLeakage() {
+      const grid = document.getElementById('leakage-grid');
+      grid.innerHTML = leakItems.map(item => `
+        <div class="p-4 rounded-xl bg-slate-900/80 border border-slate-800 flex flex-col justify-between gap-3" id="leak-card-${item.id}">
+          <div class="font-semibold text-xs sm:text-sm text-white">${item.name}</div>
+          <div class="flex gap-2" id="leak-btns-${item.id}">
+            <button onclick="checkLeak(${item.id}, false)" class="flex-1 py-1.5 px-3 rounded-lg bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-500/30 text-xs font-bold transition">
+              ✅ Dato Válido (Día 0)
+            </button>
+            <button onclick="checkLeak(${item.id}, true)" class="flex-1 py-1.5 px-3 rounded-lg bg-rose-500/20 hover:bg-rose-500/30 text-rose-300 border border-rose-500/30 text-xs font-bold transition">
+              🚨 Hay Data Leakage
+            </button>
+          </div>
+          <div id="leak-fb-${item.id}" class="hidden text-xs"></div>
+        </div>
+      `).join('');
+    }
+
+    function checkLeak(id, userSaysLeak) {
+      const item = leakItems.find(x => x.id === id);
+      const isCorrect = item.leak === userSaysLeak;
+      leakAnswered[id] = isCorrect;
+
+      const fb = document.getElementById('leak-fb-' + id);
+      fb.classList.remove('hidden');
+      fb.className = `text-xs p-2.5 rounded-lg ${isCorrect ? 'bg-emerald-500/20 text-emerald-200 border border-emerald-500/40' : 'bg-rose-500/20 text-rose-200 border border-rose-500/40'}`;
+      fb.innerHTML = `${isCorrect ? '✔️ <b>¡Correcto!</b> ' : '❌ <b>Cuidado:</b> '} ${item.why}`;
+
+      const score = Object.values(leakAnswered).filter(Boolean).length;
+      document.getElementById('leak-score').innerText = score;
+      if (isCorrect) addXp(5);
+    }
+
+    // 4. PIRÁMIDE AI ACT
+    const aiActInfo = {
+      4: {
+        title: '🚫 Nivel 4: Riesgo Inadmisible (Uso Prohibido)',
+        examples: 'Puntuación social generalizada (Social Scoring), manipulación cognitiva dañina, explotación de vulnerabilidades de menores o personas vulnerables.',
+        obligations: 'Prohibición total de uso y despliegue en la Unión Europea por vulnerar derechos fundamentales.'
+      },
+      3: {
+        title: '⚠️ Nivel 3: Alto Riesgo (El más preguntado en casos prácticos)',
+        examples: 'Selección de personal (filtrado de CV), scoring de crédito bancario, educación (evaluación/admisión), salud y triaje clínico, biometría, justicia e infraestructuras críticas.',
+        obligations: 'Obligaciones estrictas: Sistema de gestión de riesgos, gobernanza y calidad de datos (sin sesgos), documentación técnica, trazabilidad, explicabilidad (XAI), robustez, ciberseguridad y Supervisión Humana Efectiva (Human in the Loop).'
+      },
+      2: {
+        title: '💬 Nivel 2: Riesgo Limitado (Obligación de Transparencia)',
+        examples: 'Chatbots de atención al cliente, asistentes conversacionales, generación de texto/imágenes sintéticas y Deepfakes.',
+        obligations: 'Transparencia hacia el usuario: la persona debe saber que interactúa con una IA y el contenido generado artificialmente debe etiquetarse o llevar marcas de agua.'
+      },
+      1: {
+        title: '✅ Nivel 1: Riesgo Mínimo o Nulo',
+        examples: 'Filtros de spam en el correo, videojuegos con IA o recomendadores de películas/música no sensibles.',
+        obligations: 'Sin obligaciones regulatorias forzosas; se aplican códigos de conducta y buenas prácticas voluntarias.'
+      }
+    };
+
+    function showAiAct(level) {
+      const data = aiActInfo[level];
+      document.getElementById('aiact-detail').innerHTML = `
+        <h4 class="font-bold text-base text-amber-400 mb-2">${data.title}</h4>
+        <p class="text-xs text-slate-300 mb-2"><b>Ejemplos típicos:</b> ${data.examples}</p>
+        <p class="text-xs text-white bg-slate-950 p-3 rounded-lg border border-slate-800"><b>Obligación legal principal:</b> ${data.obligations}</p>
+      `;
+    }
+
+    // 5. FLASHCARDS
+    const flashcards = [
+      { tag: 'Estrategia', q: '¿Cuál es el verdadero cuello de botella de la IA según el Módulo 1?', a: 'No es técnico, es ESTRATÉGICO. Antes de elegir algoritmos hay que definir qué decisión queremos mejorar, con qué datos disponibles hoy y cómo mediremos su impacto.' },
+      { tag: 'Fronteras', q: '¿Qué diferencia hay entre RPA e Inteligencia Artificial?', a: 'RPA imita clics y teclado humano en pantallas siguiendo reglas fijas (opera en la superficie y NO aprende). La IA aprende patrones estadísticos, predice probabilidades o genera contenido nuevo.' },
+      { tag: 'Métricas', q: '¿Por qué un modelo con 99% de Accuracy puede ser 100% inútil?', a: 'Porque en clases muy desbalanceadas (ej. 1% fraude), predecir siempre "legítimo" acierta el 99% de los casos globales pero tiene un 0% de Recall (no detecta ni un solo fraude).' },
+      { tag: 'Coste del Error', q: '¿Cuándo debes priorizar el RECALL (Sensibilidad)?', a: 'Cuando el Falso Negativo (FN) es crítico o peligroso: diagnóstico de enfermedades graves, detección de piezas con defectos críticos o detección de fraude.' },
+      { tag: 'Coste del Error', q: '¿Cuándo debes priorizar la PRECISIÓN?', a: 'Cuando el Falso Positivo (FP) es muy costoso o molesto: filtros de Spam (donde enviar un correo laboral legítimo a spam es muy grave) o campañas comerciales con pocos recursos.' },
+      { tag: 'Sesgos', q: '¿Por qué borrar la columna "Sexo" o "Código Postal" no garantiza eliminar el sesgo?', a: 'Por las VARIABLES PROXY: otras variables aparentemente neutras (universidad, huecos laborales, clubes, estilo de texto) están correlacionadas y permiten al modelo inferir el atributo sensible indirectamente.' },
+      { tag: 'Sesgos', q: '¿Qué es el Sesgo de Implementación?', a: 'Cuando un sistema se usa en producción para un fin distinto al diseñado: por ejemplo, un score pensado para orientar a un médico o técnico acaba usándose como rechazo automático sin revisión.' },
+      { tag: 'Data Leakage', q: '¿Qué diferencia hay entre Target Leakage y Pipeline Leakage?', a: 'Target Leakage incluye una variable que revela directamente el resultado futuro (ej. fecha_cancelacion). Pipeline Leakage ocurre al normalizar o calcular medias con Train y Test juntos antes de dividirlos.' },
+      { tag: 'Validación', q: '¿Cuándo es obligatorio usar Validación Temporal en lugar de Aleatoria?', a: 'Siempre que el orden cronológico importe (abandono de clientes, demanda, series temporales, reingreso hospitalario). Se entrena con el pasado y se evalúa con el futuro.' },
+      { tag: 'Ética y XAI', q: '¿Qué diferencia hay entre Interpretabilidad y Explicabilidad (XAI)?', a: 'Un modelo interpretable se entiende directamente por su sencillez matemática (árbol simple). La explicabilidad (XAI) aplica técnicas sobre "cajas negras" (redes neuronales) para justificar los factores de una salida.' },
+      { tag: 'Regulación', q: '¿En qué nivel del AI Act europeo está un sistema de IA que filtra CV en Recursos Humanos?', a: 'En ALTO RIESGO (Nivel 3). Exige gestión de riesgos, auditoría de sesgos, documentación, transparencia y supervisión humana efectiva (no descarte ciego).' },
+      { tag: 'IA Generativa', q: '¿Qué es una alucinación en un LLM y cómo se reduce?', a: 'Es una respuesta fluida y plausible pero falsa o inventada. Se mitiga conectando el modelo a fuentes verificadas (RAG), exigiendo citas, limitando el prompt y con revisión humana.' }
+    ];
+    let fcIndex = 0;
+
+    function renderFlashcard() {
+      const card = document.getElementById('flashcard-inner');
+      card.classList.remove('flipped');
+      setTimeout(() => {
+        document.getElementById('fc-tag').innerText = flashcards[fcIndex].tag;
+        document.getElementById('fc-front').innerText = flashcards[fcIndex].q;
+        document.getElementById('fc-back').innerText = flashcards[fcIndex].a;
+        document.getElementById('fc-counter').innerText = `${fcIndex + 1} / ${flashcards.length}`;
+      }, 150);
+    }
+
+    function flipCard() {
+      document.getElementById('flashcard-inner').classList.toggle('flipped');
+      addXp(2);
+    }
+    function nextCard() {
+      fcIndex = (fcIndex + 1) % flashcards.length;
+      renderFlashcard();
+    }
+    function prevCard() {
+      fcIndex = (fcIndex - 1 + flashcards.length) % flashcards.length;
+      renderFlashcard();
+    }
+
+    // 6. SIMULACRO DE EXAMEN (10 PREGUNTAS)
+    const quizData = [
+      {
+        q: '1. Un bot descarga facturas de un portal web, las renombra y las mueve a una carpeta según reglas fijas. ¿Qué tecnología es?',
+        opts: ['Machine Learning supervisado', 'RPA / Automatización', 'Deep Learning', 'IA Generativa'],
+        ans: 1,
+        exp: 'Imita interacciones rutinarias sobre interfaces digitales siguiendo reglas fijas sin aprender patrones estadísticos.'
+      },
+      {
+        q: '2. Queremos agrupar a los clientes de un supermercado según sus hábitos de compra sin tener categorías definidas previamente. ¿Qué problema de IA es?',
+        opts: ['Clasificación multiclase', 'Regresión', 'Clustering', 'Ranking'],
+        ans: 2,
+        exp: 'El Clustering agrupa casos similares sin etiquetas previas (aprendizaje no supervisado).'
+      },
+      {
+        q: '3. En un detector de enfermedades graves, ¿qué error es más peligroso y qué métrica debemos priorizar?',
+        opts: ['Falso Positivo -> Priorizar Precisión', 'Falso Negativo -> Priorizar Recall (Sensibilidad)', 'Falso Negativo -> Priorizar Accuracy', 'Falso Positivo -> Priorizar RMSE'],
+        ans: 1,
+        exp: 'No detectar a un paciente enfermo (Falso Negativo) impide tratarlo a tiempo; el Recall mide cuántos enfermos reales detectamos.'
+      },
+      {
+        q: '4. ¿Qué ocurre habitualmente cuando bajamos mucho el umbral de decisión (ej. de 0.50 a 0.15) en un clasificador de fraude?',
+        opts: ['Sube el Recall (detectamos más fraudes), pero aumentan los Falsos Positivos', 'Sube la Precisión y bajan los Falsos Positivos', 'No cambia ninguna métrica porque el ROC-AUC es fijo', 'Desaparecen los Falsos Positivos y Falsos Negativos'],
+        ans: 0,
+        exp: 'Al exigir menos probabilidad para dar la alarma, atrapamos más fraudes reales (mayor Recall), pero bloqueamos más compras legítimas (más FP).'
+      },
+      {
+        q: '5. En un problema de regresión (predecir demanda en unidades), queremos una métrica en la unidad original pero que penalice fuertemente los errores extremos. ¿Cuál elegimos?',
+        opts: ['MAE', 'MSE', 'RMSE', 'F1-Score'],
+        ans: 2,
+        exp: 'El RMSE penaliza los errores grandes al elevarlos al cuadrado, pero devuelve el resultado a la unidad original mediante la raíz cuadrada.'
+      },
+      {
+        q: '6. Entrenar un modelo médico solo con pacientes de un gran hospital urbano y desplegarlo sin cambios en clínicas rurales produce:',
+        opts: ['Target Leakage', 'Sesgo de representación', 'Sesgo de implementación', 'Overfitting por exceso de varianza'],
+        ans: 1,
+        exp: 'La población rural está ausente o infrarrepresentada en los datos de entrenamiento (Sesgo de representación).'
+      },
+      {
+        q: '7. Usar el "gasto sanitario histórico" como indicador directo de la "necesidad médica real" de un paciente es un ejemplo clásico de:',
+        opts: ['Sesgo de medición (variable proxy defectuosa)', 'Sesgo de agregación', 'Pipeline Leakage', 'IA Simbólica'],
+        ans: 0,
+        exp: 'Es sesgo de medición: el gasto mide acceso económico al sistema sanitario, no necesariamente quién estaba más enfermo.'
+      },
+      {
+        q: '8. Para predecir si un cliente cancelará en los próximos 60 días incluimos la variable "fecha_cancelacion". ¿Qué problema hemos introducido?',
+        opts: ['Sesgo histórico', 'Target Leakage (Fuga de información del objetivo)', 'Underfitting', 'Sesgo de agregación'],
+        ans: 1,
+        exp: 'Target Leakage: la fecha de cancelación revela directamente la respuesta y estará vacía en producción para los clientes activos.'
+      },
+      {
+        q: '9. Una empresa usa una IA que descarta automáticamente al 80% de los CV recibidos y RR. HH. solo revisa el 20% restante. ¿Existe supervisión humana efectiva?',
+        opts: ['Sí, porque RR. HH. revisa el 20% final', 'No, porque para el 80% descartado la decisión es 100% automática y sin revisión', 'Sí, siempre que el Accuracy supere el 90%', 'No importa porque selección de personal es Riesgo Mínimo en el AI Act'],
+        ans: 1,
+        exp: 'Para el 80% rechazado es una decisión automatizada sin intervención humana; además, empleo es Alto Riesgo en el AI Act.'
+      },
+      {
+        q: '10. Según el AI Act europeo, ¿qué obligación principal tienen los sistemas de Riesgo Limitado como los chatbots o generadores de contenido sintético?',
+        opts: ['Prohibición total', 'Transparencia (informar al usuario que interactúa con IA / etiquetar contenido)', 'Ninguna obligación', 'Aprobación médica previa'],
+        ans: 1,
+        exp: 'El Nivel 2 (Riesgo Limitado) exige obligaciones de transparencia hacia la persona usuaria.'
+      }
+    ];
+    let quizAnswers = {};
+
+    function renderQuiz() {
+      const container = document.getElementById('quiz-container');
+      container.innerHTML = quizData.map((item, qIdx) => `
+        <div class="p-5 rounded-xl bg-slate-900/80 border border-slate-800 space-y-3">
+          <div class="font-bold text-sm text-white">${item.q}</div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            ${item.opts.map((opt, oIdx) => `
+              <button onclick="answerQuiz(${qIdx}, ${oIdx})" id="qbtn-${qIdx}-${oIdx}" class="text-left p-3 rounded-lg bg-slate-800/80 hover:bg-slate-700 border border-slate-700 text-xs text-slate-200 transition">
+                ${opt}
+              </button>
+            `).join('')}
+          </div>
+          <div id="qfb-${qIdx}" class="hidden text-xs p-3 rounded-lg"></div>
+        </div>
+      `).join('');
+    }
+
+    function answerQuiz(qIdx, oIdx) {
+      const item = quizData[qIdx];
+      const isCorrect = item.ans === oIdx;
+      quizAnswers[qIdx] = isCorrect;
+
+      item.opts.forEach((_, idx) => {
+        const btn = document.getElementById(`qbtn-${qIdx}-${idx}`);
+        btn.className = 'text-left p-3 rounded-lg border text-xs transition ';
+        if (idx === item.ans) {
+          btn.className += 'bg-emerald-500/20 border-emerald-500 text-emerald-200 font-bold';
+        } else if (idx === oIdx && !isCorrect) {
+          btn.className += 'bg-rose-500/20 border-rose-500 text-rose-200';
+        } else {
+          btn.className += 'bg-slate-900/40 border-slate-800 text-slate-500';
+        }
+      });
+
+      const fb = document.getElementById(`qfb-${qIdx}`);
+      fb.classList.remove('hidden');
+      fb.className = `text-xs p-3 rounded-lg ${isCorrect ? 'bg-emerald-950/60 text-emerald-200 border border-emerald-500/40' : 'bg-rose-950/60 text-rose-200 border border-rose-500/40'}`;
+      fb.innerHTML = `${isCorrect ? '✅ <b>¡Correcto!</b> ' : '❌ <b>Respuesta incorrecta.</b> '} ${item.exp}`;
+
+      const totalCorrect = Object.values(quizAnswers).filter(Boolean).length;
+      document.getElementById('quiz-score-top').innerText = `${totalCorrect} / ${quizData.length}`;
+      if (isCorrect) addXp(10);
+    }
+
+    // INIT
+    renderTaxonomy(0);
+    updateSimulator(0.99);
+    renderLeakage();
+    showAiAct(3);
+    renderFlashcard();
+    renderQuiz();
+  </script>
+</body>
+</html>
